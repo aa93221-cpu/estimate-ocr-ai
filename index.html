@@ -2057,11 +2057,17 @@ window.validateEstimateData = validateEstimateData;
 
 function downloadEstimateJson() {
 
-  const data = window.estimateData || {};
+  const data = {
+    estimateData: window.estimateData || {},
+    rawOcrText:
+      document.getElementById('ocrOutput')?.value || ''
+  };
 
   const blob = new Blob(
     [JSON.stringify(data, null, 2)],
-    { type: 'application/json;charset=utf-8' }
+    {
+      type: 'application/json;charset=utf-8'
+    }
   );
 
   const a = document.createElement('a');
@@ -2075,6 +2081,7 @@ function downloadEstimateJson() {
   setTimeout(() => {
     URL.revokeObjectURL(a.href);
   }, 1000);
+
 }
 
 toggleOcrEngineFields();
