@@ -1874,7 +1874,6 @@ function setOrAddLabor(data, spec){
   row.name = spec.name;
   row.original = spec.original || coerceAmount(row.original);
 }
-let OCR_RULES = [];
 
 let OCR_RULES = [];
 
@@ -2124,11 +2123,7 @@ toggleOcrEngineFields();
 loadRules().then(() => {
 
   renderEstimate(window.estimateData);
-
 });
-  
-window.coerceEstimateAmount = coerceAmount;
-window.validateEstimateData = validateEstimateData;
 
 </script>
 </body>
