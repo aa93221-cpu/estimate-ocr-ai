@@ -1,0 +1,31 @@
+[
+  {
+    "match": {
+      "partNo": "C1493736-SC-C"
+    },
+    "repair": {
+      "name": "前保險桿",
+      "amount": 34171
+    }
+  },
+
+  {
+    "match": {
+      "partNo": "1624798-00-A"
+    },
+    "repair": {
+      "name": "右前霧燈",
+      "amount": 6762
+    }
+  },
+
+  {
+    "match": {
+      "code": "10011001"
+    },
+    "repair": {
+      "name": "拆卸/安裝前保險桿",
+      "amount": 1610
+    }
+  }
+]
