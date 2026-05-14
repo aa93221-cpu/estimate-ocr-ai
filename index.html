@@ -447,6 +447,7 @@
       <button type="button" onclick="clearData()">清除全部輸入</button>
       <button type="button" onclick="window.print()">列印 / 另存 PDF</button>
       <button type="button" onclick="downloadFilledHtml()">下載目前表單 HTML</button>
+      <button type="button" onclick="downloadEstimateJson()">下載 estimateData JSON</button>
       <label class="file-label">
         上傳估價單圖片 / PDF
         <input type="file" accept="image/*,.pdf" onchange="handleEstimateUpload(event)">
@@ -1987,6 +1988,26 @@ function replaceEstimateData(nextData){
 }
 
 window.replaceEstimateData = replaceEstimateData;
+  function downloadEstimateJson() {
+  const data = window.estimateData || {};
+
+  const blob = new Blob(
+    [JSON.stringify(data, null, 2)],
+    { type: 'application/json;charset=utf-8' }
+  );
+
+  const a = document.createElement('a');
+
+  a.href = URL.createObjectURL(blob);
+
+  a.download = 'estimateData.json';
+
+  a.click();
+
+  setTimeout(() => {
+    URL.revokeObjectURL(a.href);
+  }, 1000);
+}
 window.coerceEstimateAmount = coerceAmount;
 window.validateEstimateData = validateEstimateData;
 
