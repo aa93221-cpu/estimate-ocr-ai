@@ -1876,21 +1876,57 @@ function setOrAddLabor(data, spec){
 }
 let OCR_RULES = [];
 
+let OCR_RULES = [];
+
 async function loadRules() {
 
   try {
 
-    const response =
-      await fetch('./rules/front_bumper.json');
+    const indexResponse =
+      await fetch('./rules/index.json');
 
-    OCR_RULES = await response.json();
+    const ruleFiles =
+      await indexResponse.json();
 
-    console.log('OCR rules loaded', OCR_RULES);
+    OCR_RULES = [];
+
+    for (const file of ruleFiles) {
+
+      try {
+
+        const response =
+          await fetch(file);
+
+        const rules =
+          await response.json();
+
+        if (Array.isArray(rules)) {
+
+          OCR_RULES.push(...rules);
+
+        }
+
+      } catch (err) {
+
+        console.error(
+          'Failed loading rule file',
+          file,
+          err
+        );
+
+      }
+
+    }
+
+    console.log(
+      'OCR rules loaded',
+      OCR_RULES
+    );
 
   } catch (err) {
 
     console.error(
-      'Failed to load OCR rules',
+      'Failed loading OCR rule index',
       err
     );
 
