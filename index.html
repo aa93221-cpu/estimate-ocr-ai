@@ -1874,7 +1874,68 @@ function setOrAddLabor(data, spec){
   row.name = spec.name;
   row.original = spec.original || coerceAmount(row.original);
 }
+let OCR_RULES = [];
 
+async function loadRules() {
+
+  try {
+
+    const response =
+      await fetch('./rules/front_bumper.json');
+
+    OCR_RULES = await response.json();
+
+    console.log('OCR rules loaded', OCR_RULES);
+
+  } catch (err) {
+
+    console.error(
+      'Failed to load OCR rules',
+      err
+    );
+
+  }
+
+}
+
+function applyRulesToParts(data) {
+
+  if (!Array.isArray(data.parts)) {
+    return data;
+  }
+
+  data.parts.forEach(part => {
+
+    OCR_RULES.forEach(rule => {
+
+      const match = rule.match || {};
+      const repair = rule.repair || {};
+
+      const matched =
+        (match.partNo &&
+         part.partNo === match.partNo)
+        ||
+        (match.code &&
+         part.code === match.code);
+
+      if (!matched) {
+        return;
+      }
+
+      if (repair.name) {
+        part.name = repair.name;
+      }
+
+      if (repair.amount) {
+        part.original = repair.amount;
+      }
+
+    });
+
+  });
+
+  return data;
+}
 function repairFrontBumperCase(data, rawText){
   const raw = String(rawText || '');
   const compact = cleanOcrText(raw).replace(/\s+/g, '');
@@ -1935,6 +1996,7 @@ function repairFrontBumperCase(data, rawText){
 parseEstimateDataFromOcr = function(rawText){
   const data = parseEstimateDataFromOcr_v7_impl(rawText);
   repairFrontBumperCase(data, rawText);
+  applyRulesToParts(data);
   dedupeEstimateData(data);
   validateEstimateData(data);
   data.ocrChecks = data.ocrChecks || {};
@@ -2016,7 +2078,11 @@ function downloadEstimateJson() {
 }
 
 toggleOcrEngineFields();
-renderEstimate(window.estimateData);
+loadRules().then(() => {
+
+  renderEstimate(window.estimateData);
+
+});
   
 window.coerceEstimateAmount = coerceAmount;
 window.validateEstimateData = validateEstimateData;
