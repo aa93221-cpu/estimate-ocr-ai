@@ -901,7 +901,9 @@ function downloadFilledHtml(){
 }
 
 if (window.pdfjsLib) {
-  pdfjsLib.GlobalWorkerOptions.workerSrc ='./libs/pdf.worker.min.js';
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    './libs/pdf.worker.min.js';
+}
 
 const OCR_DPI_WIDTH = 1800;
 const OCR_TABLE_WIDTH = 2400;
@@ -1987,7 +1989,6 @@ function replaceEstimateData(nextData){
   renderEstimate(nextData);
 }
 
-window.replaceEstimateData = replaceEstimateData;
 window.replaceEstimateData = replaceEstimateData;
 window.coerceEstimateAmount = coerceAmount;
 window.validateEstimateData = validateEstimateData;
