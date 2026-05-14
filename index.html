@@ -1988,7 +1988,12 @@ function replaceEstimateData(nextData){
 }
 
 window.replaceEstimateData = replaceEstimateData;
-  function downloadEstimateJson() {
+window.replaceEstimateData = replaceEstimateData;
+window.coerceEstimateAmount = coerceAmount;
+window.validateEstimateData = validateEstimateData;
+
+function downloadEstimateJson() {
+
   const data = window.estimateData || {};
 
   const blob = new Blob(
@@ -2008,11 +2013,13 @@ window.replaceEstimateData = replaceEstimateData;
     URL.revokeObjectURL(a.href);
   }, 1000);
 }
-window.coerceEstimateAmount = coerceAmount;
-window.validateEstimateData = validateEstimateData;
 
 toggleOcrEngineFields();
 renderEstimate(window.estimateData);
+  
+window.coerceEstimateAmount = coerceAmount;
+window.validateEstimateData = validateEstimateData;
+
 </script>
 </body>
 </html>
